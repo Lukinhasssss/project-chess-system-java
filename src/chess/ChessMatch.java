@@ -8,11 +8,23 @@ import chess.pieces.Rook;
 
 public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XADREZ
 	
+	private int turn;
+	private Color currentPlayer;
 	private Board board; // Uma partida de xadrez tem que ter um tabuleiro
 	
 	public ChessMatch() {
 		board = new Board(8, 8);  // Quem tem que saber a dimensão de um tabuleiro de xadrez é a classe ChessMatch
+		turn = 1; // O turno no início da partida commeça com 1
+		currentPlayer = Color.WHITE; // O jogar que começa a partida é o BRANCO(WHITE)
 		initialSetup();
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 	public ChessPiece[][] getPieces() { // Vai ter que retornar uma matriz de peças de xadrez correspondente a partida
@@ -37,6 +49,7 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 		validateSourcePosition(source); // source == origem
 		validateTargetPosition(source, target); // target == destino
 		Piece capturedPiece = makeMove(source, target);
+		nextTurn();
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -51,6 +64,9 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 		if (!board.thereIsAPiece(position)) { // Se não existir uma peça na posição de origem...
 			throw new ChessException("There is no piece on source position");
 		}
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+			throw new ChessException("The chosen piece is not yours");
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) { // Se não tiver nenhum movimento possível...
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
@@ -60,6 +76,11 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 		if (!board.piece(source).possibleMove(target)) { // Se para a peça de origem a peça de destino não é um movimento possível...
 			throw new ChessException("The chosen piece can't move to target position");
 		}
+	}
+	
+	private void nextTurn() { // Método ue será chamado depois que uma jogada for executada
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 	
 	private void placeNewPiece(char column, int row, ChessPiece piece) {

@@ -19,7 +19,7 @@ public class Program {
 		while (true) {
 			try {
 				UI.clearScreen(); // Vai limpar a tela cada vez que voltar no while
-				UI.printBoard(chessMatch.getPieces()); // Recebe como parâmetro a matriz de peças da minha partida | Imprime o tabuleiro na tela
+				UI.printMatch(chessMatch);
 				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
