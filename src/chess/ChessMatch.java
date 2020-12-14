@@ -28,7 +28,8 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
-		validateSourcePosition(source);
+		validateSourcePosition(source); // source == origem
+		validateTargetPosition(source, target); // target == destino
 		Piece capturedPiece = makeMove(source, target);
 		return (ChessPiece)capturedPiece;
 	}
@@ -46,6 +47,12 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) { // Se não tiver nenhum movimento possível...
 			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+	}
+	
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) { // Se para a peça de origem a peça de destino não é um movimento possível...
+			throw new ChessException("The chosen piece can't move to target position");
 		}
 	}
 	
