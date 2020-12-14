@@ -41,8 +41,11 @@ public class ChessMatch { // É NESSA CLASSE QUE VÃO TER AS REGRAS DO JOGO DE XAD
 	}
 	
 	private void validateSourcePosition(Position position) {
-		if (!board.thereIsAPiece(position)) { // Se não existir uma peça nessa posição...
+		if (!board.thereIsAPiece(position)) { // Se não existir uma peça na posição de origem...
 			throw new ChessException("There is no piece on source position");
+		}
+		if (!board.piece(position).isThereAnyPossibleMove()) { // Se não tiver nenhum movimento possível...
+			throw new ChessException("There is no possible moves for the chosen piece");
 		}
 	}
 	
