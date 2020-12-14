@@ -20,7 +20,7 @@ public class Program {
 		
 		List<ChessPiece> captured = new ArrayList<>();
 		
-		while (true) {
+		while (!chessMatch.getCheckMate()) { // Enquanto não der checkMate...
 			try {
 				UI.clearScreen(); // Vai limpar a tela cada vez que voltar no while
 				UI.printMatch(chessMatch, captured);
@@ -50,7 +50,8 @@ public class Program {
 				sc.nextLine();
 			}
 		}
-
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 	}
 
 }
